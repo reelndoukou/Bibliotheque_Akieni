@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bibliothèque de quartier</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="toasts"></div>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">Biblio<span>Quartier</span></div>
+    <nav>
+      <a href="#" data-page="dashboard" class="actif">Tableau de bord</a>
+      <a href="#" data-page="livres">Livres</a>
+      <a href="#" data-page="auteurs">Auteurs</a>
+      <a href="#" data-page="adherents">Adhérents</a>
+      <a href="#" data-page="emprunts">Emprunts</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ TABLEAU DE BORD ============ -->
+  <section id="page-dashboard" class="page visible">
+    <h1>Tableau de bord</h1>
+    <p class="sous-titre">Vue d'ensemble de l'activité de la bibliothèque</p>
+
+    <div class="grille-stats" id="stats-cartes"></div>
+
+    <div class="carte">
+      <h2>Records</h2>
+      <div id="stats-tops"></div>
+    </div>
+  </section>
+
+  <!-- ============ LIVRES ============ -->
+  <section id="page-livres" class="page">
+    <h1>Livres</h1>
+    <p class="sous-titre">Catalogue et disponibilité</p>
+
+    <div class="carte">
+      <h2>Ajouter un livre</h2>
+      <form id="form-livre">
+        <div class="grille-form">
+          <div>
+            <label for="livre-titre">Titre *</label>
+            <input type="text" id="livre-titre" required>
+          </div>
+          <div>
+            <label for="livre-auteur">Auteur *</label>
+            <select id="livre-auteur" required></select>
+          </div>
+          <div>
+            <label for="livre-annee">Année de publication</label>
+            <input type="number" id="livre-annee" min="0" max="2026">
+          </div>
+          <div><button type="submit">Ajouter le livre</button></div>
+        </div>
+      </form>
+    </div>
+
+    <div class="carte">
+      <div class="barre-outils">
+        <input type="text" id="recherche-livre" placeholder="Rechercher par titre ou auteur...">
+        <select id="filtre-statut">
+          <option value="">Tous les statuts</option>
+          <option value="disponible">Disponible</option>
+          <option value="emprunte">Emprunté</option>
+        </select>
+        <select id="filtre-auteur"><option value="">Tous les auteurs</option></select>
+        <button class="secondaire" id="btn-reset-livres">Réinitialiser</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Titre</th><th>Auteur</th><th>Année</th><th>Statut</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="liste-livres"></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="pagination-livres"></div>
+    </div>
+  </section>
+
+  <!-- ============ AUTEURS ============ -->
+  <section id="page-auteurs" class="page">
+    <h1>Auteurs</h1>
+    <p class="sous-titre">Gestion des auteurs enregistrés</p>
+
+    <div class="carte">
+      <h2>Ajouter un auteur</h2>
+      <form id="form-auteur">
+        <div class="grille-form">
+          <div>
+            <label for="auteur-nom">Nom *</label>
+            <input type="text" id="auteur-nom" required>
+          </div>
+          <div>
+            <label for="auteur-nationalite">Nationalité</label>
+            <input type="text" id="auteur-nationalite">
+          </div>
+          <div><button type="submit">Ajouter l'auteur</button></div>
+        </div>
+      </form>
+    </div>
+
+    <div class="carte">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Nom</th><th>Nationalité</th><th>Actions</th></tr></thead>
+          <tbody id="liste-auteurs"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ADHERENTS ============ -->
+  <section id="page-adherents" class="page">
+    <h1>Adhérents</h1>
+    <p class="sous-titre">Membres inscrits à la bibliothèque</p>
+
+    <div class="carte">
+      <h2>Ajouter un adhérent</h2>
+      <form id="form-adherent">
+        <div class="grille-form">
+          <div>
+            <label for="adherent-nom">Nom *</label>
+            <input type="text" id="adherent-nom" required>
+          </div>
+          <div>
+            <label for="adherent-contact">Contact (email ou téléphone) *</label>
+            <input type="text" id="adherent-contact" required>
+          </div>
+          <div><button type="submit">Ajouter l'adhérent</button></div>
+        </div>
+      </form>
+    </div>
+
+    <div class="carte">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Nom</th><th>Contact</th><th>Actions</th></tr></thead>
+          <tbody id="liste-adherents"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="carte" id="bloc-historique" style="display:none">
+      <h2 id="titre-historique">Historique des emprunts</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Livre</th><th>Emprunt</th><th>Retour prévu</th><th>Retour effectif</th><th>État</th></tr></thead>
+          <tbody id="liste-historique"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EMPRUNTS ============ -->
+  <section id="page-emprunts" class="page">
+    <h1>Emprunts</h1>
+    <p class="sous-titre">Enregistrement, suivi et retours</p>
+
+    <div class="carte">
+      <h2>Enregistrer un emprunt</h2>
+      <form id="form-emprunt">
+        <div class="grille-form">
+          <div>
+            <label for="emprunt-livre">Livre disponible *</label>
+            <select id="emprunt-livre" required></select>
+          </div>
+          <div>
+            <label for="emprunt-adherent">Adhérent *</label>
+            <select id="emprunt-adherent" required></select>
+          </div>
+          <div>
+            <label for="emprunt-date">Date de retour prévue *</label>
+            <input type="date" id="emprunt-date" required>
+          </div>
+          <div><button type="submit">Enregistrer l'emprunt</button></div>
+        </div>
+      </form>
+    </div>
+
+    <div class="carte">
+      <div class="barre-outils">
+        <h2 style="margin:0;flex:1">Emprunts en cours</h2>
+        <button class="secondaire petit" id="btn-export-retards">Exporter les retards (CSV)</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Livre</th><th>Adhérent</th><th>Emprunt</th><th>Retour prévu</th><th>État</th><th>Action</th></tr>
+          </thead>
+          <tbody id="liste-emprunts-cours"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="carte">
+      <h2>Historique complet</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Livre</th><th>Adhérent</th><th>Emprunt</th><th>Retour prévu</th><th>Retour effectif</th><th>État</th></tr>
+          </thead>
+          <tbody id="liste-emprunts-tous"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ MODALE D'EDITION ============ -->
+<div class="modal-fond" id="modal-fond">
+  <div class="modal">
+    <div class="modal-entete">
+      <h2 id="modal-titre">Modifier</h2>
+      <button class="secondaire petit" id="modal-fermer">Fermer</button>
+    </div>
+    <form id="modal-form"><div class="grille-form" id="modal-champs"></div>
+      <div class="modal-actions">
+        <button type="button" class="secondaire" id="modal-annuler">Annuler</button>
+        <button type="submit">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
