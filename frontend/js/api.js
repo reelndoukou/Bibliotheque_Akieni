@@ -1,6 +1,6 @@
 // api.js - Centralise tous les appels fetch() vers l'API backend
 
-const API_BASE = 'http://localhost:3000/api';
+const API_BASE = 'https://bibliotheque-api-ogsl.onrender.com/api';
 
 /**
  * Fonction générique d'appel à l'API.
