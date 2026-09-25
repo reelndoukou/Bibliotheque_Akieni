@@ -249,4 +249,4 @@ Séquence testée via `Invoke-RestMethod` :
 
 ## 👤 Auteur
 
-Réel NDOUKOU — Akieni Academy, Cohorte 2, 
+Réel Ndoukou — Akieni Academy, Cohorte 2, 
